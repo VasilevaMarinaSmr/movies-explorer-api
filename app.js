@@ -27,12 +27,12 @@ mongoose
     console.log(`Ошибка соединения с базой данных ${err}`);
   });
 
+
 const app = express();
-app.use(helmet());
-
-
 app.use(corsconf);
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());

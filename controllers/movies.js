@@ -48,11 +48,10 @@ module.exports.createMovie = (req, res, next) => {
         if (!mov) {
           throw new NotFoundError('Фильм с указанным id не найден');
         }
-        if (userId !== mov.owner.toString()) {
+        if (mov.owner.toString() !== req.user._id) {
           throw new ForbiddenError('Вы можете удалять только свои фильмы');
         } else {
-          return mov
-            .remove()
+          Movie.findByIdAndRemove(movieId)
             .then(() => res.status(200).send({ message: 'Фильм удалён' }));
         }
       })

@@ -6,9 +6,9 @@ const { validationLogin, validationCreateUser } = require('../middlewares/celebr
 const { auth } = require('../middlewares/auth');
 const NotFoundError = require('../errors/not-found-error');
 
+router.post('/signup', validationCreateUser, createUser);
 router.post('/signin', validationLogin, login);
 router.post('/signout', logout);
-router.post('/signup', validationCreateUser, createUser);
 
 
 router.use(auth);
