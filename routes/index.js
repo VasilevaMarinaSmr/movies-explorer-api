@@ -10,12 +10,9 @@ router.post('/signup', validationCreateUser, createUser);
 router.post('/signin', validationLogin, login);
 router.post('/signout', logout);
 
-
 router.use(auth);
-
 router.use('/', userRouter);
 router.use('/', movieRouter);
-
 router.all('*', () => {
   throw new NotFoundError('Cтраница не существует');
 });

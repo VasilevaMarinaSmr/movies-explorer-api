@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
-const ErrorAuthorization = require("../errors/error-authorization");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const ErrorAuthorization = require('../errors/error-authorization');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
       validator(email) {
         return validator.isEmail(email);
       },
-      message: "Строк не является адресом электронной",
+      message: 'Строк не является адресом электронной почты',
     },
   },
   password: {
@@ -30,23 +30,23 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
   email,
-  password
+  password,
 ) {
   return this.findOne({ email })
-    .select("+password")
+    .select('+password')
     .then((user) => {
       if (!user) {
-        throw new ErrorAuthorization("Неправильные почта или пароль");
+        throw new ErrorAuthorization('Неправильные почта или пароль');
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return Promise.reject(
-            new ErrorAuthorization("Неправильные почта или пароль")
+            new ErrorAuthorization('Неправильные почта или пароль'),
           );
         }
-        return user; // теперь user доступен
+        return user;
       });
     });
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

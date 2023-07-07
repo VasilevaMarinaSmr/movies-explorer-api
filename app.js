@@ -1,22 +1,17 @@
 require('dotenv').config();
 
-
-const { celebrate, Joi, errors  } = require('celebrate');
+const { errors } = require('celebrate');
 const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-
 const router = require('./routes/index');
-const { errorServer }  = require('./middlewares/errorServer');
+const { errorServer } = require('./middlewares/errorServer');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const corsconf = require('./middlewares/corsconf');
 const limiter = require('./middlewares/ratelimit');
 
-
-const { PORT = 3000,
-  MONGODB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
-  } = process.env;
+const { PORT = 3000, MONGODB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
 
 mongoose
   .connect(MONGODB_URL)
@@ -26,7 +21,6 @@ mongoose
   .catch((err) => {
     console.log(`Ошибка соединения с базой данных ${err}`);
   });
-
 
 const app = express();
 app.use(corsconf);
